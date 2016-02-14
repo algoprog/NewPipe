@@ -114,7 +114,7 @@ public class PlayVideoActivity extends AppCompatActivity {
             };
         }
 
-        position = intent.getIntExtra(START_POSITION, 0)*1000; //convert from seconds to milliseconds
+        position = intent.getIntExtra(START_POSITION, 0)*1000;//convert from seconds to milliseconds
 
         videoView = (VideoView) findViewById(R.id.video_view);
         progressBar = (ProgressBar) findViewById(R.id.play_video_progress_bar);
@@ -130,8 +130,12 @@ public class PlayVideoActivity extends AppCompatActivity {
             public void onPrepared(MediaPlayer mp) {
                 progressBar.setVisibility(View.GONE);
                 videoView.seekTo(position);
-                videoView.start();
-                showUi();
+                if (position <= 0) {
+                    videoView.start();
+                    showUi();
+                } else {
+                    videoView.pause();
+                }
             }
         });
         videoUrl = intent.getStringExtra(VIDEO_URL);
